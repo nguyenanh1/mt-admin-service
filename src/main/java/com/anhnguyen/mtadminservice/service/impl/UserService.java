@@ -3,8 +3,7 @@ package com.anhnguyen.mtadminservice.service.impl;
 import com.anhnguyen.mtadminservice.common.ErrorType;
 import com.anhnguyen.mtadminservice.domain.mysql.UserEntity;
 import com.anhnguyen.mtadminservice.domain.repo.UserRepo;
-import com.anhnguyen.mtadminservice.domain.request.UserLoginRequest;
-import com.anhnguyen.mtadminservice.domain.request.UserRegisterRequest;
+import com.anhnguyen.mtadminservice.domain.request.*;
 import com.anhnguyen.mtadminservice.domain.response.Result;
 import com.anhnguyen.mtadminservice.service.BaseService;
 import com.anhnguyen.mtadminservice.service.IUserService;
@@ -130,18 +129,25 @@ public class UserService extends BaseService implements IUserService {
         return result;
     }
 
-    @Override
-    public UserEntity findByUserId(Integer id) {
-        try {
-            Optional<UserEntity> userEntity = mUserRepo.findById(id);
-            if(userEntity.isPresent()){
-                return userEntity.get();
+    public Result changePassword(Integer id,String token, UserChangePasswordRequest request) {
+        UserEntity userEntity = findByUserId(id);
+        Result result = null;
+        if(userEntity!=null){
+            if(userEntity.getToken().equalsIgnoreCase(token)){
+                if(userEntity.getPassword().equalsIgnoreCase(request.getOldPassword())){
+                    userEntity.setPassword(request.getNewPassword());
+                    save(userEntity);
+                    result = Result.success();
+                }else {
+                   result = Result.fail(ErrorType.PASSWORD_WRONG);
+                }
+            }else {
+                result = Result.fail(ErrorType.TOKEN_IN_VALID);
             }
-            return null;
-        } catch (Exception e) {
-            logger.error("[User Servuce] Error to findByEmail: []" + e);
-            return null;
+        }else {
+            result = Result.fail(ErrorType.TOKEN_IN_VALID);
         }
+        return result;
     }
 
     public Result logout(Integer id, String token) {
@@ -155,6 +161,59 @@ public class UserService extends BaseService implements IUserService {
             result = Result.fail(ErrorType.TOKEN_IN_VALID);
         }
         return result;
+    }
+
+    public Result changeAvatar(Integer id, String token, UserChangeAvatarRequest request) {
+        UserEntity userEntity = findByUserId(id);
+        Result result = null;
+        if(userEntity!=null){
+            if(userEntity.getToken().equalsIgnoreCase(token)){
+                userEntity.setAvatar(request.getAvatarUrl());
+                save(userEntity);
+                result = Result.success();
+            }else {
+                result = Result.fail(ErrorType.TOKEN_IN_VALID);
+            }
+        }else {
+            result = Result.fail(ErrorType.TOKEN_IN_VALID);
+        }
+        return result;
+    }
+
+    public Result changProfile(Integer id, String token, UserChangeProfileRequest request) {
+        UserEntity userEntity = findByUserId(id);
+        Result result = null;
+        if(userEntity!=null){
+            if(userEntity.getToken().equalsIgnoreCase(token)){
+                userEntity.setLastname(request.getLastname());
+                userEntity.setName(request.getName());
+                userEntity.setGender(request.getGender());
+                userEntity.setBirthday(new Timestamp(request.getBirthday()));
+                userEntity.setAddresss(request.getAddress());
+                userEntity.setPhone(request.getPhone());
+                save(userEntity);
+                result = Result.success();
+            }else {
+                result = Result.fail(ErrorType.TOKEN_IN_VALID);
+            }
+        }else {
+            result = Result.fail(ErrorType.TOKEN_IN_VALID);
+        }
+        return result;
+    }
+
+    @Override
+    public UserEntity findByUserId(Integer id) {
+        try {
+            Optional<UserEntity> userEntity = mUserRepo.findById(id);
+            if(userEntity.isPresent()){
+                return userEntity.get();
+            }
+            return null;
+        } catch (Exception e) {
+            logger.error("[User Servuce] Error to findByEmail: []" + e);
+            return null;
+        }
     }
 
     @Override
