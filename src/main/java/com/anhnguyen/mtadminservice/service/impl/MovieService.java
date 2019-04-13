@@ -82,7 +82,12 @@ public class MovieService extends BaseService {
         Optional<MovieEntity> oEntity = mMovieRepo.findById(id);
         if(oEntity.isPresent()){
             MovieResponse movieResponse = new MovieResponse();
-            movieResponse.setMovie(oEntity.get());
+            MovieEntity entity = oEntity.get();
+            long view =  entity.getView();
+            view = view + 1;
+            entity.setView(view);
+            mMovieRepo.save(entity);
+            movieResponse.setMovie(entity);
             List<MoviecategoryEntity> mMovieCate = mMoviCateRepo.findAllByIdMovie(oEntity.get().getId());
             if(mMovieCate!=null){
                 List<CategoryEntity> mListCate = new ArrayList<>();
