@@ -43,19 +43,12 @@ public class UserService extends BaseService implements IUserService {
             entityRegister.setCreateBy(1);
             entityRegister.setUpdateBy(1);
             Timestamp timestamp = currrentTime();
-            entityRegister.setLastLogin(timestamp);
             entityRegister.setTimeCreate(timestamp);
             entityRegister.setTimeUpdate(timestamp);
+            entityRegister.setToken("");
             int save = save(entityRegister);
-            HashMap<String,String> map = new HashMap<>();
-            map.put("user_id",String.valueOf(entityRegister.getId()));
-            map.put("roles",String.valueOf(0));
-            map.put("device_id",String.valueOf(request.getDevice_id()));
-            String token = JwtUtils.generate(map);
-            entityRegister.setToken(token);
-            int save1 = save(entityRegister);
             if(save==1){
-                result = Result.success(entityRegister);
+                result = Result.success();
             }else {
                 result = Result.fail();
             }

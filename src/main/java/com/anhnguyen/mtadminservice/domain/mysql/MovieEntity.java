@@ -1,5 +1,8 @@
 package com.anhnguyen.mtadminservice.domain.mysql;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.GeneratorType;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -8,6 +11,7 @@ import java.util.Objects;
 @Table(name = "movie", schema = "movie_cinema", catalog = "")
 public class MovieEntity {
     private int id;
+    private Integer status;
     private String name;
     private Integer partTime;
     private Integer time;
@@ -15,13 +19,17 @@ public class MovieEntity {
     private String contain;
     private String trailer;
     private String thumb;
+    private String imageUrl;
     private String actor;
+    private Integer old;
+    private Long view;
     private Integer createBy;
     private Timestamp timeCreate;
     private Integer updateBy;
     private Timestamp timeUpdate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -29,6 +37,16 @@ public class MovieEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Basic
@@ -102,6 +120,16 @@ public class MovieEntity {
     }
 
     @Basic
+    @Column(name = "image_url")
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    @Basic
     @Column(name = "actor")
     public String getActor() {
         return actor;
@@ -109,6 +137,26 @@ public class MovieEntity {
 
     public void setActor(String actor) {
         this.actor = actor;
+    }
+
+    @Basic
+    @Column(name = "old")
+    public Integer getOld() {
+        return old;
+    }
+
+    public void setOld(Integer old) {
+        this.old = old;
+    }
+
+    @Basic
+    @Column(name = "view")
+    public Long getView() {
+        return view;
+    }
+
+    public void setView(Long view) {
+        this.view = view;
     }
 
     @Basic
@@ -122,6 +170,7 @@ public class MovieEntity {
     }
 
     @Basic
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @Column(name = "time_create")
     public Timestamp getTimeCreate() {
         return timeCreate;
@@ -142,6 +191,7 @@ public class MovieEntity {
     }
 
     @Basic
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @Column(name = "time_update")
     public Timestamp getTimeUpdate() {
         return timeUpdate;
@@ -157,6 +207,7 @@ public class MovieEntity {
         if (o == null || getClass() != o.getClass()) return false;
         MovieEntity that = (MovieEntity) o;
         return id == that.id &&
+                Objects.equals(status, that.status) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(partTime, that.partTime) &&
                 Objects.equals(time, that.time) &&
@@ -164,7 +215,10 @@ public class MovieEntity {
                 Objects.equals(contain, that.contain) &&
                 Objects.equals(trailer, that.trailer) &&
                 Objects.equals(thumb, that.thumb) &&
+                Objects.equals(imageUrl, that.imageUrl) &&
                 Objects.equals(actor, that.actor) &&
+                Objects.equals(old, that.old) &&
+                Objects.equals(view, that.view) &&
                 Objects.equals(createBy, that.createBy) &&
                 Objects.equals(timeCreate, that.timeCreate) &&
                 Objects.equals(updateBy, that.updateBy) &&
@@ -173,6 +227,6 @@ public class MovieEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, partTime, time, director, contain, trailer, thumb, actor, createBy, timeCreate, updateBy, timeUpdate);
+        return Objects.hash(id, status, name, partTime, time, director, contain, trailer, thumb, imageUrl, actor, old, view, createBy, timeCreate, updateBy, timeUpdate);
     }
 }

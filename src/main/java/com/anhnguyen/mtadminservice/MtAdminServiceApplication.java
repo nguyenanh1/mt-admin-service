@@ -27,7 +27,7 @@ public class MtAdminServiceApplication {
     @Bean
     public Docket swaggerPersonApi10() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .select().apis(RequestHandlerSelectors.basePackage("com.dts.cinemaemulater.controller"))
+                .select().apis(RequestHandlerSelectors.basePackage("com.anhnguyen.mtadminservice.controller"))
                 .paths(PathSelectors.any())
                 .build().apiInfo(new ApiInfoBuilder().version("1.0").title("Movie Emulater Api")
                         .description("Documentation Movie Emulater API v1.0").build());

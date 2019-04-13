@@ -1,14 +1,13 @@
-package com.anhnguyen.mtadminservice.controller;
+package com.anhnguyen.mtadminservice.controller.user;
 
 import com.anhnguyen.mtadminservice.common.ErrorType;
+import com.anhnguyen.mtadminservice.controller.BaseController;
 import com.anhnguyen.mtadminservice.domain.request.*;
 import com.anhnguyen.mtadminservice.domain.response.Result;
 import com.anhnguyen.mtadminservice.service.IUserService;
 import com.anhnguyen.mtadminservice.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("/authenication/user")
