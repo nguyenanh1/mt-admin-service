@@ -93,7 +93,7 @@ public class UserAuthenController extends BaseController {
         return result;
     }
 
-    @PutMapping("change-avatar")
+    @PutMapping("/change-avatar")
     public Result changeAvatar(@RequestHeader("token") String token,
                              @RequestBody UserChangeAvatarRequest request) {
         logger.info("change avatar with token: {} and body {}" ,token,request);
@@ -114,7 +114,7 @@ public class UserAuthenController extends BaseController {
         return result;
     }
 
-    @PutMapping("change-profile")
+    @PutMapping("/change-profile")
     public Result changeProfile(@RequestHeader("token")String token,
                                 @RequestBody UserChangeProfileRequest request){
         logger.info("change profile with token: {} and body {}" ,token,request);
@@ -122,7 +122,7 @@ public class UserAuthenController extends BaseController {
         if (token != null && !token.isEmpty()) {
             if (checkToken(token) != null) {
                 if (request.isVadilate()) {
-                    result = mUserService.changProfile(checkToken(token), token, request);
+                    result = mUserService.changeProfile(checkToken(token), token, request);
                 } else {
                     result = Result.fail(ErrorType.ARGUMENT_NOT_VALID);
                 }

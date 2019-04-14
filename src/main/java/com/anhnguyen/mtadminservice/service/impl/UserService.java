@@ -65,7 +65,7 @@ public class UserService extends BaseService implements IUserService {
             if(userEntity.getToken().equalsIgnoreCase(token)){
                 result = Result.success(userEntity);
             }else {
-                result = Result.fail(ErrorType.TOKEN_IN_VALID);
+                result = Result.fail(ErrorType.LOGIN_OTHER_DEVICE);
             }
         }else {
             result = Result.fail(ErrorType.TOKEN_IN_VALID);
@@ -101,13 +101,15 @@ public class UserService extends BaseService implements IUserService {
         Result result = null;
         UserEntity entity = findByEmail(userLoginRequest.getEmail());
         if(entity!=null){
-            if(entity.getToken().isEmpty()){
+            if(entity.getToken()
+                    ==null|| entity.getToken().isEmpty()){
                 if(entity.getPassword().equalsIgnoreCase(userLoginRequest.getPassword())){
                     HashMap<String,String> map = new HashMap<>();
                     map.put("user_id",String.valueOf(entity.getId()));
                     map.put("roles",String.valueOf(0));
                     map.put("device_id",String.valueOf(userLoginRequest.getDevice_id()));
                     entity.setToken(JwtUtils.generate(map));
+                    entity.setLastLogin(currrentTime());
                     save(entity);
                     result = Result.success(entity);
                 }else {
@@ -173,7 +175,7 @@ public class UserService extends BaseService implements IUserService {
         return result;
     }
 
-    public Result changProfile(Integer id, String token, UserChangeProfileRequest request) {
+    public Result changeProfile(Integer id, String token, UserChangeProfileRequest request) {
         UserEntity userEntity = findByUserId(id);
         Result result = null;
         if(userEntity!=null){
@@ -187,7 +189,7 @@ public class UserService extends BaseService implements IUserService {
                 save(userEntity);
                 result = Result.success();
             }else {
-                result = Result.fail(ErrorType.TOKEN_IN_VALID);
+                result = Result.fail(ErrorType.LOGIN_OTHER_DEVICE);
             }
         }else {
             result = Result.fail(ErrorType.TOKEN_IN_VALID);
