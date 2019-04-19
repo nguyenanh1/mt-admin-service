@@ -1,5 +1,7 @@
 package com.anhnguyen.mtadminservice.domain.mysql;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -8,15 +10,17 @@ import java.util.Objects;
 @Table(name = "ticket", schema = "movie_cinema", catalog = "")
 public class TicketEntity {
     private int idTicket;
-    private Integer idSeat;
     private Integer status;
+    private Integer price;
     private Integer idMovietime;
+    private Integer idZoomDetail;
     private Integer createBy;
     private Timestamp timeCreate;
     private Integer updateBy;
     private Timestamp timeUpdate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ticket")
     public int getIdTicket() {
         return idTicket;
@@ -24,16 +28,6 @@ public class TicketEntity {
 
     public void setIdTicket(int idTicket) {
         this.idTicket = idTicket;
-    }
-
-    @Basic
-    @Column(name = "id_seat")
-    public Integer getIdSeat() {
-        return idSeat;
-    }
-
-    public void setIdSeat(Integer idSeat) {
-        this.idSeat = idSeat;
     }
 
     @Basic
@@ -47,6 +41,16 @@ public class TicketEntity {
     }
 
     @Basic
+    @Column(name = "price")
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    @Basic
     @Column(name = "id_movietime")
     public Integer getIdMovietime() {
         return idMovietime;
@@ -54,6 +58,16 @@ public class TicketEntity {
 
     public void setIdMovietime(Integer idMovietime) {
         this.idMovietime = idMovietime;
+    }
+
+    @Basic
+    @Column(name = "id_zoom_detail")
+    public Integer getIdZoomDetail() {
+        return idZoomDetail;
+    }
+
+    public void setIdZoomDetail(Integer idZoomDetail) {
+        this.idZoomDetail = idZoomDetail;
     }
 
     @Basic
@@ -67,6 +81,7 @@ public class TicketEntity {
     }
 
     @Basic
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @Column(name = "time_create")
     public Timestamp getTimeCreate() {
         return timeCreate;
@@ -87,6 +102,7 @@ public class TicketEntity {
     }
 
     @Basic
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @Column(name = "time_update")
     public Timestamp getTimeUpdate() {
         return timeUpdate;
@@ -102,9 +118,10 @@ public class TicketEntity {
         if (o == null || getClass() != o.getClass()) return false;
         TicketEntity that = (TicketEntity) o;
         return idTicket == that.idTicket &&
-                Objects.equals(idSeat, that.idSeat) &&
                 Objects.equals(status, that.status) &&
+                Objects.equals(price, that.price) &&
                 Objects.equals(idMovietime, that.idMovietime) &&
+                Objects.equals(idZoomDetail, that.idZoomDetail) &&
                 Objects.equals(createBy, that.createBy) &&
                 Objects.equals(timeCreate, that.timeCreate) &&
                 Objects.equals(updateBy, that.updateBy) &&
@@ -113,6 +130,6 @@ public class TicketEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTicket, idSeat, status, idMovietime, createBy, timeCreate, updateBy, timeUpdate);
+        return Objects.hash(idTicket, status, price, idMovietime, idZoomDetail, createBy, timeCreate, updateBy, timeUpdate);
     }
 }

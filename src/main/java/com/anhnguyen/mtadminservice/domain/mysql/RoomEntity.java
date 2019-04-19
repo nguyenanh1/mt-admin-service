@@ -1,5 +1,7 @@
 package com.anhnguyen.mtadminservice.domain.mysql;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -9,13 +11,15 @@ import java.util.Objects;
 public class RoomEntity {
     private int idRoom;
     private String nameRoom;
-    private String thumb;
+    private Integer numRow;
+    private Integer numCol;
     private Integer createBy;
     private Timestamp timeCreate;
     private Integer updateBy;
     private Timestamp timeUpdate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_room")
     public int getIdRoom() {
         return idRoom;
@@ -36,13 +40,23 @@ public class RoomEntity {
     }
 
     @Basic
-    @Column(name = "thumb")
-    public String getThumb() {
-        return thumb;
+    @Column(name = "num_row")
+    public Integer getNumRow() {
+        return numRow;
     }
 
-    public void setThumb(String thumb) {
-        this.thumb = thumb;
+    public void setNumRow(Integer numRow) {
+        this.numRow = numRow;
+    }
+
+    @Basic
+    @Column(name = "num_col")
+    public Integer getNumCol() {
+        return numCol;
+    }
+
+    public void setNumCol(Integer numCol) {
+        this.numCol = numCol;
     }
 
     @Basic
@@ -56,6 +70,7 @@ public class RoomEntity {
     }
 
     @Basic
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @Column(name = "time_create")
     public Timestamp getTimeCreate() {
         return timeCreate;
@@ -76,6 +91,7 @@ public class RoomEntity {
     }
 
     @Basic
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @Column(name = "time_update")
     public Timestamp getTimeUpdate() {
         return timeUpdate;
@@ -92,7 +108,6 @@ public class RoomEntity {
         RoomEntity that = (RoomEntity) o;
         return idRoom == that.idRoom &&
                 Objects.equals(nameRoom, that.nameRoom) &&
-                Objects.equals(thumb, that.thumb) &&
                 Objects.equals(createBy, that.createBy) &&
                 Objects.equals(timeCreate, that.timeCreate) &&
                 Objects.equals(updateBy, that.updateBy) &&
@@ -101,6 +116,8 @@ public class RoomEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idRoom, nameRoom, thumb, createBy, timeCreate, updateBy, timeUpdate);
+        return Objects.hash(idRoom, nameRoom, createBy, timeCreate, updateBy, timeUpdate);
     }
+
+
 }

@@ -1,5 +1,7 @@
 package com.anhnguyen.mtadminservice.domain.mysql;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -8,16 +10,18 @@ import java.util.Objects;
 @Table(name = "movietime", schema = "movie_cinema", catalog = "")
 public class MovietimeEntity {
     private int id;
-    private Timestamp timeStart;
+    private Integer timeStart;
+    private Integer dateStart;
     private Integer price;
     private Integer idMovie;
-    private String idRoom;
+    private Integer idRoom;
     private Integer createBy;
     private Timestamp timeCreate;
     private Integer updateBy;
     private Timestamp timeUpdate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -29,12 +33,22 @@ public class MovietimeEntity {
 
     @Basic
     @Column(name = "time_start")
-    public Timestamp getTimeStart() {
+    public Integer getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(Timestamp timeStart) {
+    public void setTimeStart(Integer timeStart) {
         this.timeStart = timeStart;
+    }
+
+    @Basic
+    @Column(name = "date_start")
+    public Integer getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(Integer dateStart) {
+        this.dateStart = dateStart;
     }
 
     @Basic
@@ -59,11 +73,11 @@ public class MovietimeEntity {
 
     @Basic
     @Column(name = "id_room")
-    public String getIdRoom() {
+    public Integer getIdRoom() {
         return idRoom;
     }
 
-    public void setIdRoom(String idRoom) {
+    public void setIdRoom(Integer idRoom) {
         this.idRoom = idRoom;
     }
 
@@ -78,6 +92,7 @@ public class MovietimeEntity {
     }
 
     @Basic
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @Column(name = "time_create")
     public Timestamp getTimeCreate() {
         return timeCreate;
@@ -98,6 +113,7 @@ public class MovietimeEntity {
     }
 
     @Basic
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @Column(name = "time_update")
     public Timestamp getTimeUpdate() {
         return timeUpdate;
@@ -114,6 +130,7 @@ public class MovietimeEntity {
         MovietimeEntity that = (MovietimeEntity) o;
         return id == that.id &&
                 Objects.equals(timeStart, that.timeStart) &&
+                Objects.equals(dateStart, that.dateStart) &&
                 Objects.equals(price, that.price) &&
                 Objects.equals(idMovie, that.idMovie) &&
                 Objects.equals(idRoom, that.idRoom) &&
@@ -125,6 +142,6 @@ public class MovietimeEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, timeStart, price, idMovie, idRoom, createBy, timeCreate, updateBy, timeUpdate);
+        return Objects.hash(id, timeStart, dateStart, price, idMovie, idRoom, createBy, timeCreate, updateBy, timeUpdate);
     }
 }

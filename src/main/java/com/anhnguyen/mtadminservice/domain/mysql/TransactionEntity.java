@@ -1,16 +1,19 @@
 package com.anhnguyen.mtadminservice.domain.mysql;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "bookingtransaction", schema = "movie_cinema", catalog = "")
-public class BookingtransactionEntity {
+@Table(name = "transaction", schema = "movie_cinema", catalog = "")
+public class TransactionEntity {
     private int id;
     private Integer type;
-    private Integer idTicket;
+    private Integer status;
     private Timestamp time;
+    private Integer idUser;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,16 +37,17 @@ public class BookingtransactionEntity {
     }
 
     @Basic
-    @Column(name = "id_ticket")
-    public Integer getIdTicket() {
-        return idTicket;
+    @Column(name = "status")
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setIdTicket(Integer idTicket) {
-        this.idTicket = idTicket;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Basic
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @Column(name = "time")
     public Timestamp getTime() {
         return time;
@@ -53,19 +57,30 @@ public class BookingtransactionEntity {
         this.time = time;
     }
 
+    @Basic
+    @Column(name = "id_user")
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BookingtransactionEntity that = (BookingtransactionEntity) o;
+        TransactionEntity that = (TransactionEntity) o;
         return id == that.id &&
                 Objects.equals(type, that.type) &&
-                Objects.equals(idTicket, that.idTicket) &&
-                Objects.equals(time, that.time);
+                Objects.equals(status, that.status) &&
+                Objects.equals(time, that.time) &&
+                Objects.equals(idUser, that.idUser);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, idTicket, time);
+        return Objects.hash(id, type, status, time, idUser);
     }
 }

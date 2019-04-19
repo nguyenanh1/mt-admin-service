@@ -21,7 +21,8 @@ public enum ErrorType {
     TOKEN_IN_VALID("007","TOKEN_IN_VALID"),
     TOKEN_IS_EMPTY("008","TOKEN_IS_EMPTY"),
     LIST_EMPTY("009","LIST_EMPTY"),
-    OBJECT_EMPTY("010","OBJECT_EMPTY")
+    OBJECT_EMPTY("010","OBJECT_EMPTY"),
+    TICKET_IS_HOLDING("011","TICKET_IS_HOLDING")
     ;
 
     private String code;
