@@ -189,4 +189,14 @@ public class TicketService extends BaseService {
             return Result.fail(errorType);
         }
     }
+
+    public Result getHistoryTransaction(Integer id, String token) {
+        ErrorType errorType = mUserService.checkToken(id, token);
+        if (errorType == null) {
+            List<TransactionEntity> list = mTranRepo.findAllByIdUserAndTypeOrderByTimeDesc(id,2);
+            return Result.success(list);
+        } else {
+            return Result.fail(errorType);
+        }
+    }
 }

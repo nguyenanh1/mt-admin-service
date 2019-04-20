@@ -100,4 +100,20 @@ public class BookingController extends BaseController {
         }
     }
 
+    @GetMapping("/history-transaction")
+    public Result getHistoryTransaction(@RequestHeader("token")String token){
+        logger.info("[Ticket User get history transaction] get history transaction  by token {}",token);
+        if(token!=null){
+            Integer id = checkToken(token);
+            if(id!=null){
+                Result result = mService.getHistoryTransaction(id,token);
+                return result;
+            }else {
+                return Result.fail(ErrorType.TOKEN_IN_VALID);
+            }
+        }else {
+            return Result.fail(ErrorType.ARGUMENT_NOT_VALID);
+        }
+    }
+
 }
