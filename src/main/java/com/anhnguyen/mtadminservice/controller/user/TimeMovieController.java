@@ -15,7 +15,7 @@ public class TimeMovieController extends BaseController {
 
     @GetMapping("/get")
     private Result getMovieTime(@RequestHeader String token,
-                                @RequestParam Integer idMovie,
+                                   @RequestParam Integer idMovie,
                                 @RequestParam Integer date){
         logger.info("[Movie Time User Get] Get time by idMovie {} and date {}",idMovie,date);
         if(token!=null && idMovie !=null && date!=null ){
